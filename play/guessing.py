@@ -9,7 +9,7 @@ print(f"Enter {guessRange[2]} to escape")
 
 # Choose the target
 target = randint(1,100)
-print (f"Debug {target}")
+#print (f"Debug {target}")
 
 # Initialize our guess list (let's us count the guesses)
 guesses = [0]
