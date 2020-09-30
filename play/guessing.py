@@ -8,12 +8,11 @@ print(f"Simple guessing game.   Guess a number from {guessRange[0]} to {guessRan
 print(f"Enter {guessRange[2]} to escape")
 
 # Choose the target
-target = randint(1,100)
+target = randint(guessRange[0], guessRange[1])
 #print (f"Debug {target}")
 
 # Initialize our guess list (let's us count the guesses)
 guesses = [0]
-close = False
 
 while True:
     num = input("Enter a guess: ")
@@ -31,14 +30,13 @@ while True:
         print(f"You got it!  It took {len(guesses)-1} guesses!")
         break
     # The easy part is done, now we need to look at our warmer/colder cycle
-    elif close:   # We've been within 10
+    elif len(guesses) > 2:
         if (abs(target-num) <= abs(target-guesses[-2])):
             print("Warmer")
         else:
             print("colder")
     else:  # We haven't been within 10
         if abs(target-num) <= 10:
-            print ("Getting Warm")
-            close=True
+            print ("Warm")
         else:
             print ("Ice Cold")
