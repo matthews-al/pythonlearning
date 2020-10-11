@@ -64,6 +64,31 @@ def get_pone():
             print(f"Invalid symbol, will default to 'X' in {tries} attempts")
     return 'X'
 
+def check_wins(board):
+    """ Check the given board to see if there's a winner.
+    returns winning symbol if there's a winner, ' ' if there's no winner, or 't' if the game has completed in a tie.
+    Note:  I'm sure there are some clever ways to loop through the rows and columns, vs. hard coding the sets,
+    however, for this scale, it would likely be overly complex
+    """
+    # Check rows:
+    if board[7] == board[8] == board[9]: return board[7]
+    if board[4] == board[5] == board[6]: return board[4]
+    if board[1] == board[2] == board[3]: return board[1]
+
+    # Check cols
+    if board[7] == board[4] == board[1]: return board[7]
+    if board[8] == board[5] == board[2]: return board[8]
+    if board[9] == board[6] == board[3]: return board[9]
+
+    # Check diagonals
+    if board[7] == board[5] == board[3]: return board[7]
+    if board[9] == board[5] == board[1]: return board[9]
+
+    # Check to see if all spaces are occupied
+    if board.count(' ') == 1:
+        return 't'
+    return ' '
+
 def game_loop():
     board = new_board()
     players = [' '] * 2
@@ -79,8 +104,18 @@ def game_loop():
     while playing:
         display_board(board)
         selection = get_play(board, curplayer+1)
-        board[selection] = players[curplayer]
+        if selection > 0:  board[selection] = players[curplayer]   # Do this so we can rely on board[0] being ' '
         curplayer = (curplayer + 1) % 2
+        status = check_wins(board)
+        if status == 't':
+            print('The game has tied.')
+            display_board(board)
+            return
+        if status == 'X' or status == 'O':
+            display_board(board)
+            print(f"The {status}'s have won!   Congrats!")
+            return
+        # If we get here, no ending condition was detected
         turncounter += 1
         if turncounter > 10: break
 
