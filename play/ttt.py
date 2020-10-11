@@ -17,14 +17,14 @@ def display_board(board = ['X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'], le
         exit
     
     # Loop through the board to print state
-    for i in range(1, 10, 3):
+    for i in range(7, 0, -3):
         if legend:
             print(" {} | {} | {}".format(i, i+1, i+2))
         else:
             print(" {} | {} | {}".format(" ", " ", " "))
         print(" {} | {} | {}".format(board[i], board[i+1], board[i+2]))
         print(" {} | {} | {}".format(" ", " ", " "))
-        if i < 7:   # Print row separators if we aren't on the last row
+        if i > 1:   # Print row separators if we aren't on the last row
             print("-"*11)
 
 def new_board():
@@ -54,12 +54,37 @@ def get_play(board, player):
             if tries > 0: display_board(board, True)
     return 0  # Fall through if the player doesn't make a valid selection
 
+def get_pone():
+    """ Ask player one to select their symbol """
+    for tries in range(2,-1,-1):   # We'll give the player 3 attempts to make a valid selection
+        sym = input("Player 1, please choose your symbol - 'X' or 'O': ")
+        if sym.upper() == 'X' or sym.upper() == 'O':
+            return sym.upper()
+        else:
+            print(f"Invalid symbol, will default to 'X' in {tries} attempts")
+    return 'X'
+
 def game_loop():
     board = new_board()
-    display_board(board, False)
-    selection = get_play(board, 1)
-    board[selection] = 'X'
-    display_board(board, False)
+    players = [' '] * 2
+    players[0] = get_pone()
+    if players[0] == 'X':
+        players[1] = 'O'
+    else:
+        players[1] = 'X'
+
+    curplayer = 0
+    turncounter = 1 # Temporary turn counter until we get win detection
+    playing = True
+    while playing:
+        display_board(board)
+        selection = get_play(board, curplayer+1)
+        board[selection] = players[curplayer]
+        curplayer = (curplayer + 1) % 2
+        turncounter += 1
+        if turncounter > 10: break
+
+    display_board(board)
 
 """
 playing=True
