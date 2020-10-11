@@ -121,7 +121,6 @@ def game_loop():
 
     display_board(board)
 
-"""
 playing=True
 while playing:
     playing = False # This forces the game to exit unless the play again select y or yes
@@ -132,5 +131,3 @@ while playing:
     if again.lower() == 'y' or again.lower() == 'yes':
         playing = True
     print('')
-"""        
-game_loop()
