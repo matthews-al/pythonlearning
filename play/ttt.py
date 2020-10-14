@@ -71,18 +71,18 @@ def check_wins(board):
     however, for this scale, it would likely be overly complex
     """
     # Check rows:
-    if board[7] == board[8] == board[9]: return board[7]
-    if board[4] == board[5] == board[6]: return board[4]
-    if board[1] == board[2] == board[3]: return board[1]
+    if board[7] != " " and board[7] == board[8] == board[9]: return board[7]
+    if board[4] != " " and board[4] == board[5] == board[6]: return board[4]
+    if board[1] != " " and board[1] == board[2] == board[3]: return board[1]
 
     # Check cols
-    if board[7] == board[4] == board[1]: return board[7]
-    if board[8] == board[5] == board[2]: return board[8]
-    if board[9] == board[6] == board[3]: return board[9]
+    if board[7] != " " and board[7] == board[4] == board[1]: return board[7]
+    if board[8] != " " and board[8] == board[5] == board[2]: return board[8]
+    if board[9] != " " and board[9] == board[6] == board[3]: return board[9]
 
     # Check diagonals
-    if board[7] == board[5] == board[3]: return board[7]
-    if board[9] == board[5] == board[1]: return board[9]
+    if board[7] != " " and board[7] == board[5] == board[3]: return board[7]
+    if board[9] != " " and board[9] == board[5] == board[1]: return board[9]
 
     # Check to see if all spaces are occupied
     if board.count(' ') == 1:
