@@ -1,3 +1,4 @@
 [MASTER]
 persistent=yes
 suggestion_mode=yes
+ignore=.vscode
