@@ -44,3 +44,7 @@ class Deck():
     def __len__(self):
         """ How many cards are currently in the deck """
         return len(self.cards)
+
+    def __getitem__(self, position):
+        """ Return a specific card from the deck - mainly a test tool """
+        return self.cards[position]

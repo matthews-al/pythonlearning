@@ -11,12 +11,17 @@ class TestDeck(unittest.TestCase):
 
     def tearDown(self):
         """ Cleanup our test variables """
-        self.dek = None
+        del self.dek
 
     def test_generic_card(self):
         """ We should get a two of clubs from a new generic deck """
         car = self.dek.deal_card()
         self.assertEqual(str(car), "As")
+
+    def test_generic_card_position(self):
+        """ Position 0 in the deck should be 2c """
+        car = self.dek[0]
+        self.assertEqual(str(car), "2c")
 
     def test_generic_deck_size(self):
         """ A generic deck of cards should be 52 cards """
