@@ -4,7 +4,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./Blackjack/lib",
+        "./Blackjack/src",
         "-p",
         "test_*.py"
     ],
