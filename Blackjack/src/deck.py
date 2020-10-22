@@ -1,6 +1,7 @@
 """ Deck class
- Represent a deck of cards.
- """
+Represent a deck of cards.
+"""
+from random import shuffle
 import card
 
 class Deck():
@@ -48,3 +49,18 @@ class Deck():
     def __getitem__(self, position):
         """ Return a specific card from the deck - mainly a test tool """
         return self.cards[position]
+
+    def shuffle_deck(self):
+        """ Shuffle the cards.   We'll do three shuffles as a 'proper' shuffle """
+        shuffle(self.cards)
+        shuffle(self.cards)
+        shuffle(self.cards)
+
+    def append(self, other):
+        """ In place addition of another deck or single card
+        Note:  This only appends the additional cards, it doesn't shuffle them in
+        Silently ignore unknown objects (for now) """
+        if isinstance(other, Deck):
+            self.cards += other.cards
+        elif isinstance(other, card.Card):
+            self.cards.append(other)

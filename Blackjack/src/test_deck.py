@@ -1,6 +1,7 @@
 """ Tests for deck class """
 import unittest
 import deck
+import card
 
 class TestDeck(unittest.TestCase):
     """ Test the Deck class """
@@ -31,6 +32,24 @@ class TestDeck(unittest.TestCase):
         """ The deck should get smaller when we deal a card """
         self.dek.deal_card()
         self.assertEqual(len(self.dek), 51)
+
+    def test_shuffle(self):
+        """ It should be sufficiently improbable statistiscally for the entire deck
+        to stay in the same order it started to use that as our test case.
+        """
+        dek2 = deck.Deck(True)
+        dek2.shuffle_deck()
+        self.assertNotEqual(self.dek.cards, dek2.cards)
+
+    def test_append_deck(self):
+        """ Try appending a second copy of the deck, we should get 104 cards """
+        self.dek.append(deck.Deck(True))
+        self.assertEqual(len(self.dek), 104)
+
+    def test_append_card(self):
+        """ Try appending a second copy of the deck, we should get 104 cards """
+        self.dek.append(card.Card('s', 2, 2))
+        self.assertEqual(len(self.dek), 53)
 
 if __name__ == "__main__":
     unittest.main()
