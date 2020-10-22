@@ -8,7 +8,7 @@ class TestCard(unittest.TestCase):
     def test_repr(self):
         """ Repr call works as expected """
         car = Card('c', 2, 2)
-        self.assertEqual(repr(car), "card('c', 2, 2)")
+        self.assertEqual(repr(car), "Card('c', 2, 2)")
 
     def test_str(self):
         """ Str call works as expected """
