@@ -47,7 +47,7 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(len(self.dek), 104)
 
     def test_append_card(self):
-        """ Try appending a second copy of the deck, we should get 104 cards """
+        """ Try appending a card to the deck, we should get 53 cards """
         self.dek.append(card.Card('s', 2, 2))
         self.assertEqual(len(self.dek), 53)
 
