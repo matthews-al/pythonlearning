@@ -17,7 +17,7 @@ class Player():
 
     def get_bet(self):
         """ Request a bet from the player """
-        while newbet := input(f"{self.name}: {self.lastbet} chips. Last bet: {self.chips}.  Bet: "):
+        while newbet := input(f"{self.name}: {self.chips} chips. Last bet: {self.lastbet}.  Bet: "):
             try:
                 newbet = int(newbet)
                 if newbet in range(0, self.chips+1):
@@ -46,3 +46,30 @@ class Player():
         """ Receive a card dealt during the deal round """
         self.hand1.append(card)
         print(f"{self.name} was dealt a {card}")
+
+    def hand_value(self):
+        """ Return the value of the players hand.  Still need to handle split hands somehow """
+        return sum(self.hand1)
+
+    def win(self):
+        """ Winning hand, pay BJ 3:2 or normal 2:1 """
+        if sum(self.hand1[0:2]) == 21:
+            pay = int(self.bet * 1.5)
+            self.chips += pay + self.bet
+            self.lastbet = self.bet
+            self.bet = 0
+            print(f"{self.name} has a Blackjack.  Wins {pay}")
+        else:
+            print(f"{self.name} wins {self.bet}.  Nice job.")
+            # Expanding for easy viewing
+            self.chips += self.bet + self.bet
+
+    def lose(self):
+        """ Lost hand, lost bet """
+        print(f"Sorry {self.name}, your hand lost")
+        self.lastbet = self.bet
+        self.bet = 0
+
+    def push(self):
+        """ Pay a push bet """
+        print(f"{self.name} matched the dealers hand, push")

@@ -1,11 +1,6 @@
 """ Bank, including dealer play
 """
-from enum import Enum, auto
 import deck
-
-class RoundState(Enum):
-    """ Enum of round states """
-    PREPARING = auto()
 
 class Bank():
     """ This is our Bank / Dealer """
@@ -14,7 +9,6 @@ class Bank():
         self.shoe = deck.Deck(False)
         self.shuffle_shoe()
         self.hand = []
-        self.roundstate = RoundState.PREPARING
 
     def shuffle_shoe(self, decks=6):
         """ Shuffle a new shoe of cards """
@@ -33,7 +27,6 @@ class Bank():
         Shuffle the shoe if there are fewer than players*8 cards remaining in the shoe
         """
         self.hand = []
-        self.roundstate = RoundState.PREPARING
 
     def dealer_draw(self, card):
         """ Deal a card to the dealer.   First card is face down, second faceup """
@@ -42,7 +35,15 @@ class Bank():
             print(f"Dealer's first card is a {card}")
         elif len(self.hand) == 2:
             print("Dealer takes a second card.")
-            # Check for dealer blackjack
-            if sum(self.hand) == 21:
-                print("Dealer has a Blackjack")
-                print(f"{self.hand[0]} {self.hand[1]}")
+
+    def dealer_21(self):
+        """ Check for dealer blackjack """
+        if sum(self.hand) == 21:
+            print("Dealer has a Blackjack")
+            print(f"{self.hand[0]} {self.hand[1]}")
+            return True
+        return False
+
+    def dealer_hand_value(self):
+        """ Return the value of the dealers hand """
+        return sum(self.hand)

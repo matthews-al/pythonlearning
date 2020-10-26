@@ -45,6 +45,14 @@ def house_turn():
 
 def pay_bets():
     """ Pay any winning bets, take any remaining lost bets """
+    dealer_value = house.dealer_hand_value()
+    for play in players:
+        if play.hand_value() < dealer_value:
+            play.lost()
+        elif play.hand_value() == dealer_value:
+            play.push()
+        else:
+            play.win()
 
 def another_round():
     """ Find out if we're going to play another round """
@@ -65,10 +73,10 @@ if __name__ == "__main__":
     while True:
         prepare_round()
         place_bets()
-        if deal_cards():
-            player_turns()
-            house_turn()
-            pay_bets()
+        deal_cards()
+        player_turns()
+        house_turn()
+        pay_bets()
         if not another_round():
             break
 
