@@ -25,3 +25,19 @@ class Card():
         if isinstance(other, int):
             return self.val == other
         return False
+
+    def __int__(self):
+        """ Casting to int will return the value of the card """
+        return self.val
+
+    def __add__(self, other):
+        if isinstance(other, Card):
+            return self.val + other.val
+        if isinstance(other, int):
+            return self.val + other
+
+    def __radd__(self, other):
+        if isinstance(other, Card):
+            return self.val + other.val
+        if isinstance(other, int):
+            return self.val + other

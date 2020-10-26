@@ -34,3 +34,15 @@ class Bank():
         """
         self.hand = []
         self.roundstate = RoundState.PREPARING
+
+    def dealer_draw(self, card):
+        """ Deal a card to the dealer.   First card is face down, second faceup """
+        self.hand.append(card)
+        if len(self.hand) == 1:
+            print(f"Dealer's first card is a {card}")
+        elif len(self.hand) == 2:
+            print("Dealer takes a second card.")
+            # Check for dealer blackjack
+            if sum(self.hand) == 21:
+                print("Dealer has a Blackjack")
+                print(f"{self.hand[0]} {self.hand[1]}")

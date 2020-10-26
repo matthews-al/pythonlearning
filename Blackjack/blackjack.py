@@ -21,12 +21,21 @@ def prepare_round():
     while len(players) < MAXPLAYERS:
         if (_ := input("The table has room, any new players? "))[0].upper() == 'Y':
             join_game()
+    for play in players:
+        play.prepare_round()
 
 def place_bets():
     """ Allow players to place their bets """
+    for play in players:
+        play.get_bet()
 
 def deal_cards():
     """ Deal cards for the round """
+    for _ in range(0, 2):
+        for play in players:
+            if play.bet > 0:
+                play.dealt_card(house.deal_card())
+        house.dealer_draw(house.deal_card())
 
 def player_turns():
     """ Allow each player to take their turn """
@@ -56,10 +65,10 @@ if __name__ == "__main__":
     while True:
         prepare_round()
         place_bets()
-        deal_cards()
-        player_turns()
-        house_turn()
-        pay_bets()
+        if deal_cards():
+            player_turns()
+            house_turn()
+            pay_bets()
         if not another_round():
             break
 
