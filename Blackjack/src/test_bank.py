@@ -1,6 +1,6 @@
 """ Tests for Player class """
 import unittest
-import bank
+from ..src import bank
 
 class TestBank(unittest.TestCase):
     """ Test the Player class """

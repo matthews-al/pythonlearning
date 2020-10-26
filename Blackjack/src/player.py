@@ -25,3 +25,14 @@ class Player():
                     return newbet
             except ValueError:
                 print("Bets are numbers please.")
+
+    def clear_hand(self):
+        """ Clear our hand before a round """
+        self.hand1 = []
+        self.hand2 = []
+
+    def get_name(self):
+        """ Get a player name to join the game """
+        name = input("What is your name? ")
+        if len(name) > 0:
+            self.name = name
