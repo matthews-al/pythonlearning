@@ -1,7 +1,7 @@
 """ Blackjack game driver & input test driver """
 
-from src import player
-from src import bank
+import player
+import bank
 
 # Semi-arbitrary max players
 MAXPLAYERS = 1

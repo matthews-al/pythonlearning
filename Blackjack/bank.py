@@ -1,7 +1,7 @@
 """ Bank, including dealer play
 """
 from enum import Enum, auto
-from . import deck
+import deck
 
 class RoundState(Enum):
     """ Enum of round states """
