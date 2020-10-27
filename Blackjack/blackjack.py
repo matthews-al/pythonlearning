@@ -4,7 +4,7 @@ import player
 import bank
 
 # Semi-arbitrary max players
-MAXPLAYERS = 1
+MAXPLAYERS = 2
 
 def join_game():
     """ Add a player to the game """
@@ -19,8 +19,11 @@ def prepare_round():
     """
     house.prepare_round()
     while len(players) < MAXPLAYERS:
-        if (_ := input("The table has room, any new players? "))[0].upper() == 'Y':
+        joinin = input("The table has room, any new players? ")
+        if len(joinin) > 0 and joinin[0].lower() == 'y':
             join_game()
+        else:
+            break
     for play in players:
         play.prepare_round()
 

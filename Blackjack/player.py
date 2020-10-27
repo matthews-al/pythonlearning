@@ -54,14 +54,15 @@ class Player():
 
     def win(self, dlr):
         """ Winning hand, pay BJ 3:2 or normal 2:1 """
-        if sum(self.hand1[0:2]) == 21:
+        total, _, _ = self.hand_value()
+        if total == 21 and len(self.hand1) == 2:
             pay = int(self.bet * 1.5)
             self.chips += pay + self.bet
             self.lastbet = self.bet
             self.bet = 0
             print(f"{self.name} has a Blackjack.  Wins {pay}")
         else:
-            print(f"{self.name} has {sum(self.hand1)}, beating dealers {dlr}")
+            print(f"{self.name} has {total}, beating dealers {dlr}")
             print(f"   Wins: {self.bet}")
             # Expanding for easy viewing
             self.chips += self.bet + self.bet
@@ -81,3 +82,35 @@ class Player():
 
     def play_round(self, house):
         """ Take a turn """
+        total, _, _ = self.hand_value()
+        while True:
+            # Player chooses when to stop (even when it's 21)
+            print(f"\n{self.name}: Hand: {deck.hand_to_str(self.hand1)} - Total {total}")
+            if len(self.hand1) == 2:
+                act = input("What would you like to do?  (h)it   (s)tand   (d)ouble  ")
+            else:
+                act = input("What would you like to do?  (h)it   (s)tand  ")
+            if len(act) == 0:
+                continue
+            if act[0].lower() == 'h':
+                self.hand1.append(house.deal_card())
+                print(f"You drew a {self.hand1[-1]}")
+            elif act[0].lower() == 'd' and len(self.hand1) == 2 and self.chips > self.bet:
+                self.chips -= self.bet
+                self.bet += self.bet
+                self.hand1.append(house.deal_card())
+                print(f"You drew a {self.hand1[-1]}")
+                total, _, _ = self.hand_value()
+                break
+            elif act[0].lower() == 's':
+                print("Stand")
+                break
+
+            total, _, _ = self.hand_value()
+            if total > 21:
+                break
+
+        if total > 21:
+            print(f"{self.name} busts.")
+            self.lastbet = self.bet
+            self.bet = 0

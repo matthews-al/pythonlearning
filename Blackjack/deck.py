@@ -74,9 +74,11 @@ def bj_hand_value(hand):
     return tuple of the hand value, a flag of whether it is a soft value, and total 'hard' value
     """
     soft = False
-    if 11 in hand:
+    aces = hand.count(11)
+    if aces > 0:
         soft = True
-    total = sum(hand)
-    if total > 21 and soft:
-        return (total - 10, soft, total)
-    return (total, soft, total)
+    soft_total = total = sum(hand)
+    while aces > 0 and soft_total > 21:
+        soft_total -= 10
+        aces -= 1
+    return (soft_total, soft, total)
