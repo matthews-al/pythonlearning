@@ -46,4 +46,18 @@ class Bank():
 
     def dealer_hand_value(self):
         """ Return the value of the dealers hand """
-        return sum(self.hand)
+        return deck.bj_hand_value(self.hand)
+
+    def dealer_turn(self):
+        """ Play the dealers turn
+        Dealer stands on soft 17
+        """
+        val, soft, hard = deck.bj_hand_value(self.hand)
+        print(f"Dealer's hand: {deck.hand_to_str(self.hand)}")
+        while val < 17 or (soft and hard < 18):
+            self.hand.append(self.deal_card())
+            print(f"Dealer draws {self.hand[-1]}")
+            print(f"Dealer's hand: {deck.hand_to_str(self.hand)}")
+            val, soft, hard = deck.bj_hand_value(self.hand)
+        if val > 21:
+            print("Dealer Bust, players win.")

@@ -64,3 +64,19 @@ class Deck():
             self.cards += other.cards
         elif isinstance(other, card.Card):
             self.cards.append(other)
+
+def hand_to_str(hand):
+    """ Convert a hand to a string """
+    return ' '.join([str(car) for car in hand])
+
+def bj_hand_value(hand):
+    """ Calculate the value of a blackjack hand
+    return tuple of the hand value, a flag of whether it is a soft value, and total 'hard' value
+    """
+    soft = False
+    if 11 in hand:
+        soft = True
+    total = sum(hand)
+    if total > 21 and soft:
+        return (total - 10, soft, total)
+    return (total, soft, total)

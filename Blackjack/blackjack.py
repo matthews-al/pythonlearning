@@ -39,20 +39,29 @@ def deal_cards():
 
 def player_turns():
     """ Allow each player to take their turn """
+    for play in players:
+        play.play_round(house)
 
 def house_turn():
     """ House takes their turn """
+    house.dealer_turn()
 
 def pay_bets():
     """ Pay any winning bets, take any remaining lost bets """
-    dealer_value = house.dealer_hand_value()
+    (dealer_value, _, _) = house.dealer_hand_value()
     for play in players:
-        if play.hand_value() < dealer_value:
-            play.lost()
-        elif play.hand_value() == dealer_value:
-            play.push()
+        # don't report status for players without a bet
+        if play.bet == 0:
+            continue
+        playval, _, _ = play.hand_value()
+        if dealer_value > 21:
+            play.win(dealer_value)
+        elif playval < dealer_value:
+            play.lose(dealer_value)
+        elif playval == dealer_value:
+            play.push(dealer_value)
         else:
-            play.win()
+            play.win(dealer_value)
 
 def another_round():
     """ Find out if we're going to play another round """
@@ -74,8 +83,9 @@ if __name__ == "__main__":
         prepare_round()
         place_bets()
         deal_cards()
-        player_turns()
-        house_turn()
+        if not house.dealer_21():
+            player_turns()
+            house_turn()
         pay_bets()
         if not another_round():
             break

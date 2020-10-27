@@ -3,6 +3,7 @@ Players need:
 * Chip balance
 * a current hand (or pair of hands for split)
 """
+import deck
 
 class Player():
     """ This is our base player class """
@@ -49,9 +50,9 @@ class Player():
 
     def hand_value(self):
         """ Return the value of the players hand.  Still need to handle split hands somehow """
-        return sum(self.hand1)
+        return deck.bj_hand_value(self.hand1)
 
-    def win(self):
+    def win(self, dlr):
         """ Winning hand, pay BJ 3:2 or normal 2:1 """
         if sum(self.hand1[0:2]) == 21:
             pay = int(self.bet * 1.5)
@@ -60,16 +61,23 @@ class Player():
             self.bet = 0
             print(f"{self.name} has a Blackjack.  Wins {pay}")
         else:
-            print(f"{self.name} wins {self.bet}.  Nice job.")
+            print(f"{self.name} has {sum(self.hand1)}, beating dealers {dlr}")
+            print(f"   Wins: {self.bet}")
             # Expanding for easy viewing
             self.chips += self.bet + self.bet
 
-    def lose(self):
+    def lose(self, dlr):
         """ Lost hand, lost bet """
-        print(f"Sorry {self.name}, your hand lost")
+        print(f"Sorry {self.name}, your total of {sum(self.hand1)} didn't beat the dealers {dlr}")
         self.lastbet = self.bet
         self.bet = 0
 
-    def push(self):
+    def push(self, dlr):
         """ Pay a push bet """
-        print(f"{self.name} matched the dealers hand, push")
+        print(f"{self.name}'s {dlr} matched the dealers hand, push")
+        self.chips += self.bet
+        self.lastbet = self.bet
+        self.bet = 0
+
+    def play_round(self, house):
+        """ Take a turn """
