@@ -7,7 +7,7 @@ import os
 
 # CONSTANTS
 PUZZLEZIP = "unzip_me_for_instructions.zip"
-SOLUTION = 1
+SOLUTION = 2
 
 def unzipit(fname):
     """ Unzip puzzle file to FS """
@@ -28,8 +28,7 @@ def searchpath(path, pattern):
         for fname in files:
             with open(folder + '\\\\' + fname) as f:
                 for line in f:
-                    match = pattern.search(line)
-                    if match is not None:
+                    if match := pattern.search(line):
                         matches.append((folder, fname, line, match.group()))
     return matches
 
@@ -37,11 +36,23 @@ def cleanup(path):
     """ Cleanup the temp path we extracted """
     print(f"Cleanup {path} by hand")
 
+def search_zip(fname, pattern):
+    """ Search a zip file for files that match a given pattern """
+    matches = []
+    zipf = zipfile.ZipFile(fname, 'r')
+    for name in zipf.namelist():
+        with zipf.open(name) as f:
+            for line in f.readlines():
+                if match := pattern.search(line):
+                    matches.append((fname, name, line, match.group().decode()))
+    return matches
+
 if __name__ == "__main__":
-    phonere = re.compile(r'(\d{3})-(\d{3})-(\d{4})')
+    phone_pattern = r'(\d{3})-(\d{3})-(\d{4})'
 
     print(f'Running Solution #{SOLUTION}')
     if SOLUTION == 1:  # Basic solution - unzip it and traverse the tree
+        phonere = re.compile(phone_pattern)
         puzdir = unzipit(PUZZLEZIP)
         matches = searchpath(puzdir, phonere)
         for folder, fname, _, line in matches:
@@ -49,4 +60,7 @@ if __name__ == "__main__":
         cleanup(puzdir)
 
     elif SOLUTION == 2: # Open the zip and search via the stream
-        pass
+        phonere = re.compile(phone_pattern.encode())
+        matches = search_zip(PUZZLEZIP, phonere)
+        for folder, fname, _, line in matches:
+            print(f'Match found in {folder}\\\\{fname}:  {line}')
