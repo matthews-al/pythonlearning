@@ -4,3 +4,4 @@
 .vscode/.ropeproject/objectdb
 *.zip
 .coverage
+Blackjack/coverage.xml
