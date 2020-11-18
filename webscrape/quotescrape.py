@@ -27,7 +27,7 @@ def get_page(num):
 def get_list(soup, selector):
     """ Return a list of authors found on a page """
     sel = soup.select(selector)
-    items = [item.text for item in sel]
+    items = (item.text for item in sel)
     return items
 
 if __name__ == "__main__":
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     authors = Counter()
     (end, tent) = get_page(1)
     toptags = get_list(tent, '.tag-item > a')
-    print(toptags)
+    print(list(toptags))
     while page := page + 1:
         (end, tent) = get_page(page)
         authors.update(get_list(tent, '.quote .author'))
